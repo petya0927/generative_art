@@ -17,9 +17,9 @@ import math
 circles = []
 WIN_WIDTH = 800
 WIN_HEIGHT = 800
-MIN_RADIUS = 1
-MAX_RADIUS = 200
-MAX_ENTITIES = 500
+MIN_RADIUS = 10
+MAX_RADIUS = 400
+MAX_ENTITIES = 200
 ATTEMPTS = 100
 
 class Circle:
@@ -35,6 +35,13 @@ def is_colliding(circle):
     for other_circle in circles:
         if distance(circle, other_circle) <= circle.r + other_circle.r:
             return True
+
+    if circle.x + circle.r >= WIN_WIDTH or circle.x - circle.r <= 0:
+        return True
+    
+    if circle.y + circle.r >= WIN_HEIGHT or circle.y - circle.r <= 0:
+        return True
+
     return False
 
 def compute_new_circle():
@@ -62,7 +69,6 @@ def compute_new_circle():
 
 def main():
     canvas = np.ones((WIN_WIDTH, WIN_HEIGHT), dtype='uint8')
-    circles.append(Circle(randint(0, WIN_WIDTH), randint(0, WIN_HEIGHT), MAX_RADIUS))
     while True:
 
         if len(circles) <= MAX_ENTITIES:
