@@ -19,39 +19,44 @@ WIN_WIDTH = 800
 WIN_HEIGHT = 800
 MIN_RADIUS = 1
 MAX_RADIUS = 200
-MAX_ENTITIES = 200
+MAX_ENTITIES = 500
+ATTEMPTS = 100
 
 class Circle:
-
     def __init__(self, x, y, r):
         self.x = x
         self.y = y
         self.r = r
 
-    def __str__(self):
-        return "x: " + str(self.x) + " y: " + str(self.y) + " r: " + str(self.r)
-
-    def enlarge(self):
-        self.r += 1
-
 def distance(circle1, circle2):
     return math.sqrt(math.pow(circle1.x - circle2.x, 2) + math.pow(circle1.y - circle2.y, 2))
 
+def is_colliding(circle):
+    for other_circle in circles:
+        if distance(circle, other_circle) <= circle.r + other_circle.r:
+            return True
+    return False
+
 def compute_new_circle():
-    collide = False
-    new_circle = Circle(randint(0, WIN_WIDTH), randint(0, WIN_HEIGHT), MIN_RADIUS)
+    safe = False
 
-    while not collide and new_circle.r <= MAX_RADIUS:
-        for circle in circles:
-            d = distance(new_circle, circle)
-            if d < circle.r:
-                return
-            if d < new_circle.r + circle.r:
-                collide = True
-                break
+    for attempt in range(ATTEMPTS):
+        new_circle = Circle(randint(0, WIN_WIDTH), randint(0, WIN_HEIGHT), MIN_RADIUS)
 
-        if not collide:
-            new_circle.enlarge()
+        if is_colliding(new_circle):
+            continue
+        else:
+            safe = True
+            break
+
+    if not safe:
+        return
+
+    while new_circle.r < MAX_RADIUS:
+        new_circle.r += 1
+        if is_colliding(new_circle):
+            new_circle.r -= 1
+            break
 
     circles.append(new_circle)
 
