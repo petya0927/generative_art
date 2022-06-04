@@ -17,8 +17,8 @@ import math
 circles = []
 WIN_WIDTH = 800
 WIN_HEIGHT = 800
-MIN_RADIUS = 2
-MAX_RADIUS = 200
+MIN_RADIUS = 1
+MAX_RADIUS = 50
 MAX_ENTITIES = 500
 ATTEMPTS = 100
 
@@ -31,24 +31,31 @@ class Circle:
 def distance(circle1, circle2):
     return math.sqrt(math.pow(circle1.x - circle2.x, 2) + math.pow(circle1.y - circle2.y, 2))
 
+def myround(x, base=5):
+    return base * round(x/base)
+
 def is_colliding(circle):
     for other_circle in circles:
         if distance(circle, other_circle) <= circle.r + other_circle.r:
             return True
 
-    if circle.x + circle.r >= WIN_WIDTH or circle.x - circle.r <= 0:
+    if myround(img[circle.y - 1][circle.x - 1], 255) == 0:
+        return True
+
+    if circle.x + circle.r >= img_width or circle.x - circle.r <= 0:
         return True
     
-    if circle.y + circle.r >= WIN_HEIGHT or circle.y - circle.r <= 0:
+    if circle.y + circle.r >= img_height or circle.y - circle.r <= 0:
         return True
 
     return False
+
 
 def compute_new_circle():
     safe = False
 
     for attempt in range(ATTEMPTS):
-        new_circle = Circle(randint(0, WIN_WIDTH), randint(0, WIN_HEIGHT), MIN_RADIUS)
+        new_circle = Circle(randint(0, img_width), randint(0, img_height), MIN_RADIUS)
 
         if is_colliding(new_circle):
             continue
@@ -68,7 +75,10 @@ def compute_new_circle():
     circles.append(new_circle)
 
 def main():
-    canvas = np.ones((WIN_WIDTH, WIN_HEIGHT), dtype='uint8')
+    global img, img_height, img_width
+    img = cv2.imread('images/2017.png', 0)
+    img_height, img_width = img.shape
+    canvas = np.zeros((img_height, img_width, 3), np.uint8)
     while True:
 
         if len(circles) <= MAX_ENTITIES:
@@ -77,7 +87,7 @@ def main():
         for circle in circles:
             cv2.circle(canvas, (circle.x, circle.y), circle.r, (200, 200, 200), 1)
 
-        cv2.imshow('Canvas', canvas)
+        cv2.imshow('Circle packing', canvas)
         if cv2.waitKey(1) == 27:
             break
 
