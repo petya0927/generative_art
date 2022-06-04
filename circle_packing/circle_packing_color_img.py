@@ -18,9 +18,10 @@ circles = []
 WIN_WIDTH = 800
 WIN_HEIGHT = 800
 MIN_RADIUS = 1
-MAX_RADIUS = 30
+MAX_RADIUS = 40
 MAX_ENTITIES = 20000
 ATTEMPTS = 100
+OFFSET = 2
 
 class Circle:
     def __init__(self, x, y, r, color):
@@ -34,7 +35,7 @@ def distance(circle1, circle2):
 
 def is_colliding(circle):
     for other_circle in circles:
-        if distance(circle, other_circle) <= circle.r + other_circle.r:
+        if distance(circle, other_circle) <= circle.r + other_circle.r + OFFSET:
             return True
 
     if circle.x + circle.r >= img_width or circle.x - circle.r <= 0:
