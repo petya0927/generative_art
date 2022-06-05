@@ -18,10 +18,10 @@ circles = []
 WIN_WIDTH = 800
 WIN_HEIGHT = 800
 MIN_RADIUS = 1
-MAX_RADIUS = 40
+MAX_RADIUS = 30
 MAX_ENTITIES = 20000
 ATTEMPTS = 100
-OFFSET = 2
+OFFSET = 0
 
 class Circle:
     def __init__(self, x, y, r, color):
@@ -75,7 +75,7 @@ def compute_new_circle():
 
 def main():
     global img, img_height, img_width
-    img = cv2.imread('images/cat.jpg')
+    img = cv2.imread('../images/cat.jpg')
     img_height, img_width, channels = img.shape
     canvas = np.zeros((img_height, img_width, 3), np.uint8)
     while True:

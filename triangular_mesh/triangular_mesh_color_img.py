@@ -7,19 +7,19 @@ points = []
 triangles = []
 WIN_WIDTH = 800
 WIN_HEIGHT = 800
-RANDOMNESS = 20
-GAP = 10
+RANDOMNESS = 10
+GAP = 50
 
 def generate_points():
     odd_row = False
-    for y in range(0, img_height + 1, GAP):
+    for y in range(0, img_height + GAP * 2, GAP):
         points.append([])
         if not odd_row:
-            for x in range(0, img_width + 1, GAP):
+            for x in range(-GAP, img_width + GAP, GAP):
                 points[y // GAP].append((x, y))
             odd_row = True
         else:
-            for x in range(GAP // 2, img_width + 1, GAP):
+            for x in range(-GAP // 2, img_width + GAP, GAP):
                 points[y // GAP].append((x, y))
             odd_row = False
 
@@ -63,7 +63,7 @@ def get_center(triangle):
 
 def main():
     global points, img_width, img_height
-    img = cv2.imread('images/cat.jpg')
+    img = cv2.imread('../images/cat.jpg')
     img_height, img_width, channels = img.shape
     canvas = np.zeros((img_height, img_width, 3), dtype='uint8')
 

@@ -76,7 +76,7 @@ def compute_new_circle():
 
 def main():
     global img, img_height, img_width
-    img = cv2.imread('images/2017.png', 0)
+    img = cv2.imread('../images/2017.png', 0)
     img_height, img_width = img.shape
     canvas = np.zeros((img_height, img_width, 3), np.uint8)
     while True:
