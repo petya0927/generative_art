@@ -8,7 +8,7 @@ triangles = []
 WIN_WIDTH = 800
 WIN_HEIGHT = 800
 RANDOMNESS = 10
-GAP = 50
+GAP = 20
 
 def generate_points():
     odd_row = False
