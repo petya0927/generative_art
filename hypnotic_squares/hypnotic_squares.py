@@ -45,9 +45,9 @@ def get_direction(section):
         if offset_x < -1: offset_x = -1
         elif offset_x > 1: offset_x = 1
         if offset_y < -1 : offset_y = -1
-        elif offset_y > -1: offset_y = 1
+        elif offset_y > 1: offset_y = 1
 
-        return (offset_x, offset_y), 5
+        return (offset_x, offset_y), 7
 
 def create_square(size, steps, start_x, start_y, direction):
     # direction1 = round(randint(-1, 1))
@@ -70,7 +70,7 @@ def main():
 
     for y in range(0, len(sections) // 2, 1):
         for x in range(0, len(sections[y]) // 2, 1):
-            print(sections[y][x])
+            # print(sections[y][x])
             section = get_section(x * 2, y * 2)
             direction, steps = get_direction(section)
             create_square(50, steps, x * 50, y * 50, direction)

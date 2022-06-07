@@ -19,6 +19,7 @@ def main(DRAW=False):
     sections = []
 
     image = cv2.imread('../images/cat.jpg', 0)
+    # image = cv2.addWeighted(image, .5, np.zeros(image.shape, image.dtype), .5, 0)
     image_height, image_width = image.shape
     break_into_sections(image, sections)
 
